@@ -1,0 +1,20 @@
+bable       Bable
+brazilia    Portuguese, Brazil
+catalan     Catalan
+czech       Czech
+dansk       Danish
+duetsch     German
+espanol     Spanish
+euskera     Basque (Spain)
+francais    French
+galego      Galician
+italiano    Italian
+magyar      Hungarian
+nederlan    Dutch
+norsk       Norwegian
+polski      Polish
+portugal    Portuguese
+            Russian
+svenska     Swedish
+suomen      Finnish
+turkce      Turkish

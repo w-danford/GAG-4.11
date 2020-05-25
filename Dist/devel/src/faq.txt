@@ -1,0 +1,437 @@
+FAQ (Frequently asked questions)
+
+1. Do I have to pay money for GAG?
+2. Where's the mouse cursor?
+3. What is the Boot Floppy option intended for? Can I delete it?
+4. How can I uninstall GAG?
+5. I want a version of GAG in my language. What do I have to do?
+6. I can't boot Linux from GAG. What can I do?
+7. I have an AZERTY keyboard, and I can't do some actions.
+8. I have two (or more) MS-DOS/WINDOWS primary partitions. I was able
+   to access to them, but now with GAG I can only read the boot partition.
+   Is it a bug?
+9. When I install GAG 4.0 in my hard disk, I receive a 'Disk error'
+   message, but GAG 2.1 works fine. What's the problem?
+10. I can't boot OS/2 with GAG. What do I have to do?
+11. When I choose the 'Add operating system' option, GAG doesn't show all
+    my partitions. What happens?
+12. Does the floppy disk image file must have 1.44 megs of length, or can
+    I cut it?
+13. I don't want LILO/GRUB to ask me for an operating system, after being
+    booted from GAG. Is there any solution?
+14. How can I select what Linux kernel I want to boot from GAG?
+15. GAG shows some partitions in black, and others in blue. What does it mean?
+16. I want to boot a Linux partition that is beyond the 8 Gigabytes limit, but
+    LILO stops loading, showing a 'LI' line in the screen.
+17. Can I boot a Windows installed in the second, third... hard disk?
+18. When I boot a Windows 95/98/ME installed in the second, third... hard
+    disk, I can't see the CD-ROM icon. How can I fix it?
+19. After uninstalling GAG, my system doesn't boot because my primary
+    partitions are still hidded. What can I do to fix it?
+20. After uninstalling GAG, I can't boot my computer. It shows me an error
+    message. What does this mean?
+21. Can I use a bootable CD-ROM instead a floppy to boot the installer?
+22. How can I create more than one DOS primary partitions? The Windows'FDISK
+    doesn't allow to do it.
+23. When I boot Windows from the second/third... hard disk, I receive a
+    virus alert. Why?
+24. How can I put latin characters in the Rusian version?
+25. I choosed a QWERTY keyboard and Rusian language, and now I can't
+    configure GAG. Why?
+26. What about Windows XP or Vista?
+27. I booted the GAG installer from a CD and I can't install it in a floppy
+28. I forgot to install GRUB in the partition, and now I can't boot Linux
+29. Can I boot GAG from an USB pendrive?
+
+
+1. Do I have to pay money for GAG?
+
+No, you do not. GAG is free software, distributed under a GPL license. 
+Of course, if you want to pay money you can do it, just write me 
+(look at my e-mail address at the end of the text). 
+For more details about the GPL license, read it in the main menu.
+
+
+2. Where's the mouse cursor?
+
+GAG can't (yet) use the mouse. You must use the keyboard.
+
+
+3. What is the Boot Floppy option intended for? Can I delete it?
+
+You can delete it and add it again later if you want or need it. 
+That option allows you to boot a disk from GAG, so you can disable 
+the option of booting from floppy in the BIOS SETUP. 
+If you need to boot from a floppy, you can use GAG instead of 
+enabling it again. This is good because if you restart your computer, 
+you don't need to drop out the floppy from the drive. 
+I hope to add support for booting from CD-ROM too.
+
+
+4. How can I uninstall GAG?
+
+Just boot with the installation floppy (or CD) and choose the option 5.
+
+
+5. I want a version of GAG in my language. What do I have to do?
+
+Just write me, and I'll send you the files you have to translate and how.
+
+
+6. I can't boot Linux from GAG. What can I do?
+
+Be sure you have installed LILO or GRUB in the SuperBlock of your Linux
+partition. That is, if your root partition is /dev/hda8, be sure you
+install LILO or GRUB in /dev/hda8, not in /dev/hda.
+
+
+7. I have an AZERTY (or QWERTZ) keyboard, and I can't do some actions.
+
+That's because the PC computer's BIOS were developed to use QWERTY
+keyboards. In France it is common to use AZERTY keyboards, they have a
+different layout of the keys. 
+The same occurs in Germany, where they use QWERTZ keyboards.
+
+To fix your problem, just select AZERTY or QWERTZ keyboard 
+when the installation program asks you.
+
+To know what kind of keyboard you have, just see the first six letters
+in the upper left row.
+
+
+8. I have two (or more) MS-DOS/WINDOWS primary partitions. I was able
+to access to them, but now with GAG I can only read the boot partition.
+Is it a bug?
+
+No, it isn't a bug. To allow users to have more than one version of
+DOS, or to have DOS and Windows, or DOS and OS/2, or Windows and OS/2,
+GAG can hide all the primary partitions located BEFORE the boot
+partition (this is a new behaviour; in old versions, all partitions
+were hidden). This is done to avoid interferences during the boot proccess.
+
+Starting from GAG 4.11 you can choose the behavior of this option. 
+If you want to be able to see your primary partitions, just be sure that 
+the option "HIDE PRIMARY PARTITIONS" is DISABLED (this is, it has no
+number).
+
+
+9. When I install GAG 4.0 in my hard disk, I receive a 'Disk error'
+message, but GAG 2.1 works fine. What's the problem?
+
+GAG stores itself in the first track of the hard disk. This track is
+reserved for this kind of program. Versions 2.1 and earlier were much
+smaller and could be installed in only 17 sectors.  This new version 4.11
+needs 42 sectors, and versions 4.5 and later uses 62 sectors.
+
+If your hard disk is old (made before 1992) and/or you don't have the LBA
+mode active in the BIOS, it is possible that it does not have enough sectors
+in the first track to store GAG 4.11, so you must use GAG 2.1. But don't worry,
+with newer hard disks (made after the year 1992) this will not happen because
+all have 63 sectors per track.
+
+
+10. I can't boot OS/2 with GAG. What do I have to do?
+
+GAG can boot OS/2 only if it is installed in a primary partition. 
+If your OS/2 is installed in an extended partition and you want 
+to have the benefits of GAG, you must still use the IBM Boot Manager. 
+To do this, just put the IBM BM timer to zero seconds, and configure 
+the icon of OS/2 to boot the partition where the Boot Manager is stored.
+
+Another problem is when OS/2 is installed in a primary partition in
+a hard disk that is not the first hard disk. In this case, you must
+say YES to the option 'Exchange drive letters' when you add the OS/2
+partition to GAG. In this case you don't need to use the IBM Boot Manager.
+
+
+11. When I choose the 'Add operating system' option, GAG doesn't show all
+my partitions. What happens?
+
+There are two possibilities:
+
+ a) It is possible that you have one or more partitions that starts beyond 
+the 8 Gigabytes limit, and your BIOS is old and does not support the
+extensions that allows booting from them. In that case, GAG has to use the old
+access method, which cannot access data located beyond that limit. This
+happens in motherboards with BIOSes created before 1998, and in old SCSI
+adapters.
+
+ b) You are attempting to add a partition that is in the second, third...
+hard disk.  GAG shows only the partitions for ONE hard disk each time, so
+to list the partitions in the second hard disk, you must press the '2' key.
+Then, GAG will show you the content for the second hard disk. If you press
+the '3' key, GAG will show you the content for the third hard disk, and so
+on. (easy, isn't it? :-)
+
+
+12. Must the floppy disk image file must have a length of 1.44 megs, 
+or can I cut it?
+
+Not really. Current GAG disk image needs about 700 Kbytes. But in the near
+future, new language versions could be added, so I strongly recommend to
+use the whole 1.44 megs file, instead of cutting it.
+
+
+13. I don't want LILO/GRUB to ask me for an operating system, after being
+booted from GAG. Is there any solution?
+
+Yes, there is. Log into your Linux box as root, and edit the file
+/etc/lilo.conf. There you must delete the lines:
+
+        delay=nnn
+        prompt
+
+(where nnn is a number). After saving the file, just run 'lilo' 
+(without quotes) from a shell or command line window.
+
+For GRUB, just edit the file /boot/grub/menu.lst. There you must modify the
+line:
+
+timeout = X
+
+(where X is a number). Just change X to 1 (1 second) and save it. Now just
+run 'grub-install /dev/XXX', being /dev/XXX the root partition (ex: if your
+root partition is /dev/sda8, just run 'grub-install /dev/sda8').
+
+
+14. How can I select what Linux kernel I want to boot from GAG?
+
+GAG can't select a kernel to load (this is why you must still use LILO or
+GRUB), but there's a trick to do it.
+
+You will need as many EXT2 partitions as kernels you want to boot. But don't
+worry: you can count your 'root' (/) partition, your '/home' partition, your
+'/usr' partition, etc. into this, so if you want to boot two kernels and you
+have your system divided into two or more partitions, you don't need to create
+more.
+
+You have to install a different LILO in each partition, with one
+kernel selected in each one. To do this with LILO, you must select a different
+map file in each lilo.conf file that you create, because that file contains
+the data for LILO's second stage for each boot.
+
+Save each lilo.conf with the configuration of each kernel to boot with a
+different name in /etc. As an example, you can name them as 'lilo.conf.1',
+'lilo.conf.2', and so on.
+
+install each lilo.conf.n file with:
+
+        lilo -C lilo.conf.n
+
+This will install lilo using the file 'lilo.conf.n' instead of the default
+'lilo.conf'. Since each 'lilo.conf.n' file has a different partition target,
+kernel and map file, you will install a different LILO in each partition.
+
+Finally, go to GAG and add each partition with LILO to it (of course, with
+different names, or you will not be able to distingish between them :-)
+
+Remember: use a different map file (map=/etc/map.n) in each lilo.conf.n file. 
+If you don't do this, only one partition will boot successfully, and the others 
+will hang with a 'LIL-' text on the screen when you try to boot them.
+
+And don't worry: the map file is created by LILO each time you run it. 
+You don't need to create one before.
+
+
+15. GAG shows some partitions in black, and others in blue. What does it mean?
+
+Don't worry, it's not a bug. Black partitions are the primary partitions, 
+and blue partitions are the extended partitions. 
+I added this to help people to configure GAG more easily.
+
+
+16. I want to boot a Linux partition that is beyond the 8 Gigabytes limit, 
+but LILO stops loading, showing an 'L' (or 'LI') line in the screen.
+
+That's because you need a recent version of LILO (21.3 or greater) in order
+to be able to boot. You must also put the string 'lba32' in your lilo.conf
+file and re-run 'lilo', to tell it that it must use the new BIOS extensions
+to boot Linux. If you don't do this, LILO will use the old BIOS calls and it
+will not be able to boot a partition located beyond the 8 Gigabyte limit.
+
+
+17. Can I boot a Windows installed in the second, third... hard disk?
+
+Yes, you can. You only have to answer 'yes' to the option 'Exchange drive
+letters?'. But warning, read the question 18 too.
+
+
+18. When I boot a Windows 95/98/ME installed in the second, third... hard
+disk, I can't see the CD-ROM icon. How can I fix it?
+
+When you boot an operating system with the 'Exchange drive letters' option
+active, GAG installs a little resident program in the memory that intercepts
+all the read and write calls for the hard disks, and changes the parameters
+in a way that the calls for the first hard disk will be redirected to the 
+other drive, and viceversa. 
+When Windows 95/98/ME detects this, it doesn't use its 32bit drivers for 
+disk access. It uses the MS-DOS that is under it (yes, even under Windows ME 
+is an MS-DOS). Since MS-DOS does not have the ability to access a CD-ROM, 
+ZIP drives, etc. without a driver, Windows also cannot access them.
+
+To fix it, you only need to reboot in MS-DOS mode (see below how to do this
+in Windows ME) and install the MS-DOS drivers that comes with your nonworking
+drive. As an example, in the case of a CD-ROM, you have to install in the
+CONFIG.SYS a file called in a similar way to CDATAPI.SYS, which is in the
+floppy that comes with the CD-ROM drive, and in the AUTOEXEC.BAT you have
+to install the MSCDEX.EXE file, which is in the WINDOWS directory.
+Of course, you must add the right parameters in order to make it work.
+But don't worry if this sounds complicated, because it is very common that 
+the floppy has a little BAT file that install it automatically. Just read
+the README.TXT file that should come on the floppy with the drivers.
+
+After that, reboot, and Windows will be able to work with it without problems.
+
+Doing this in Windows ME is a little more complicated, because the MS-DOS is
+hidden. To gain access to it, you have to install a little patch that you can
+download from:
+
+     http://www.geocities.com/mfd4life_2000
+
+Once you have done this, you can install the MS-DOS CD-ROM driver as I
+explained before.
+
+
+19. After uninstalling GAG, my system doesn't boot because my primary
+partitions are still hidden. What can I do to fix it?
+
+In order to make your hidden partitions visible again, you need to use an
+FDISK program that allows you to change this status. 
+You can use FDISK from Linux (just booting from an install CD-ROM) or use
+Ranish PART.exe or use a commercial program like PARTITION MAGIC.
+
+
+20. After uninstalling GAG, I can't boot my computer. It shows me an 
+error message. What does this mean?
+
+The boot code that GAG puts in the MBR after uninstall, can return three
+possible errors:
+
+DISK ERROR: this means that the MBR code found a bad sector in your hard
+disk and can't load it in order to boot. It means you have a damaged hard
+disk, so be careful with your data.
+
+NO BOOT SECTOR FOUND: this means that the active partition (the one that
+should be booted at startup) has no operating system. To fix this, boot
+with a floppy or a bootable CD and use FDISK (or its equivalent) to mark
+another primary partition as the active partition.
+
+NO ACTIVE PARTITION FOUND: this means that there is no partition marked 
+as active in your hard disk. The way to fix this is the same than in the
+previous case: just boot with a bootable floppy or CD and use FDISK (or
+its equivalent) to mark any primary partition (with an OS installed, of
+course) as the active partition.
+
+
+21. Can I use a bootable CD-ROM instead a floppy to boot the installer?
+
+Yes, you can. Just copy the file DISK.DSK somewhere onto the CD-ROM 
+and tell your burn program to use that file as a 1.44Meg floppy image 
+to boot from with the ELTORITO system.
+
+This method is the best when you want to distribute GAG in a magazine or
+similar, because people can boot the CD and find the installer, without
+need to create a floppy.
+
+
+22. How can I create more than one DOS primary partitions? The Windows'FDISK
+doesn't allow me to do it.
+
+The various Linux FDISK (fdisk, sfdisk, cfdisk ) can do that.
+You can also use the FDISK from freedos. Just go to www.freedos.org, 
+and you will find the boot disks and many more.
+
+
+23. When I boot Windows from the second/third... hard disk, I receive a
+virus alert. Why?
+
+That's because GAG has to install a little resident program that intercepts
+all the hard disk calls, in order to change them. This is similar to a
+virus (with the difference, of course, that a virus is malign, but GAG
+isn't), so antivirus programs think that there's a problem, because they
+can't distingish between this resident and a malign virus.
+
+The best solution is to not install windows in the second hard disk, and
+install all of them in sepearate primary partitions on the first hard disk.
+
+
+24. How can I put latin characters in the Russian version?
+
+Lowercase letters are cyrillic characters, while uppercase letters are
+latin characters.
+
+
+25. I choosed a QWERTY keyboard and Russian language, and now I can't
+configure GAG. Why?
+
+You MUST use Russian language and Cyrillic keyboard together. You can't
+use Cyrillic keyboard with other languages, or Russian language with other
+keyboards.
+
+
+26. What about Windows XP or Vista?
+
+Everything I said about Windows 95/98/Me applies to XP/Vista, except the
+detail about CD-ROM drives (they should work without problems).
+
+
+27. I booted the GAG installer from a CD and I can't install it in a floppy
+
+Booting from a CD works emulating a floppy; this means that A: is the CD
+drive, and your physical floppy is now B:. GAG always try to install in A:;
+it fails because the CD-ROM is read-only.
+
+
+28. I forgot to install GRUB in the partition, and now I can't boot Linux
+
+You have to boot from a Live-CD (like the Ubuntu install CD, or a Knoppix CD),
+open a terminal and reinstall GRUB from there. It's easy to do, just run:
+
+        sudo grub
+
+It will display a new prompt. There type:
+
+        root (hdX,Y)
+        setup (hdX,Y)
+        quit
+
+being X the disk drive number where is located your Linux root partition
+(0 being the first hard disk, 1 the second, and so on), and Y the partition
+number (0 being the first primary partition, 1 the second primary partition,
+2 the third primary partition and 3 the fourth primary partition. Numbers
+4 and up are for extended partitions).
+
+An example to understand this better: if your root partition is /dev/sda7,
+then you must do:
+
+        root (hd0,6)
+        setup (hd0,6)
+        quit
+
+(0=first hard disk, 6=third extended partition).
+
+Another example: your root partition is /dev/sdc2:
+
+        root (hd2,1)
+        setup (hd2,1)
+        quit
+
+Now your Linux partition should be bootable.
+
+BE CAREFULL!!!! Hard disks are numbered as they are mounted AT BOOT TIME.
+This means that if you have (example) one ATA disk (/dev/hda) and one
+SATA disk (/dev/sda) and your boot sequence is ATA first and SATA after,
+then the ATA disk will be disk 0, and SATA will be disk 1; but if the
+boot sequence is SATA first and ATA after, then the SATA disk will be
+disk 0 and ATA disk will be disk 1.
+
+
+29. Can I boot GAG from an USB pendrive?
+
+In theory it is possible, but only installing it from Linux AND if the pendrive
+has a sector size of 512 bytes. Use gag-install using the pen device name. If
+the program complains, try to re-create the partitions leaving some free
+space at the begining.
+
+I can't guarantee that this will work. The only pendrive I have access to
+has a sector size of 2048 bytes, and my BIOS seems to dislike it.

@@ -1,0 +1,31 @@
+Build relations:
+================
+
+Each language is a build to .com file where the language specific
+message.msg and font.fnt files must be included.  The source for
+each build is gag.asm.  TASM accepts an option to define an include
+path.  The file mklang.bat uses the folder name for the language as
+an arg to pass this option; i.e. "mklang english" will set ".\english"
+as an include path.  The folder named must hold its language specific
+files, message.msg and font.fnt.  This language name is then the name
+of the .com from TLINK.
+
+The overall source image uses install.asm and boot.asm as startup and
+install sources.  'boot.asm' is the floppy MBR bootloader source.
+install.asm is the installer program.  Its use is to put up install
+screens for the user to select his hardware and language.  From those
+selections the corresponding language.com file is installed to the first
+cylinder (64 sectors = 32 kB max).  The file mkmain.bat invokes TASM and
+TLINK for install.asm and boot.asm.  It also invokes TASM and TLINK for
+hdboot.asm used for Linux direct installs.
+
+mezcla.c builds a 1.44 M floppy image of all these .com sources saving
+the result as disk.dsk, a floppy image file.   mmezcla.bat invokes
+BCC32 and ILINK32 to create mezcla.exe, a DOS command line executable.
+
+install.asm includes the file message.txt as its source of all on screen
+text messages.  mezcla.c copies all the language.com files to the floppy
+image.  !!! It is critical that the copy order in mezcla.c match exactly
+the numbered naming order of the languages in messages.txt !!!
+The installer uses the index of this naming order to locate the start of
+chosen language.com file.

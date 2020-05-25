@@ -1,0 +1,113 @@
+C:\APPS\TASM\BIN>tasm /?
+
+Turbo Assembler  Version 4.1  Copyright (c) 1988, 1996 Borland International
+Syntax:  TASM [options] source [,object] [,listing] [,xref]
+/a,/s          Alphabetic or Source-code segment ordering
+/c             Generate cross-reference in listing
+/dSYM[=VAL]    Define symbol SYM = 0, or = value VAL
+/e,/r          Emulated or Real floating-point instructions
+/h,/?          Display this help screen
+/iPATH         Search PATH for include files
+/jCMD          Jam in an assembler directive CMD (eg. /jIDEAL)
+/kh#           Hash table capacity # symbols
+/l,/la         Generate listing: l=normal listing, la=expanded listing
+/ml,/mx,/mu    Case sensitivity on symbols: ml=all, mx=globals, mu=none
+/mv#           Set maximum valid length for symbols
+/m#            Allow # multiple passes to resolve forward references
+/n             Suppress symbol tables in listing
+/os,/o,/op,/oi Object code: standard, standard w/overlays, Phar Lap, or IBM
+/p             Check for code segment overrides in protected mode
+/q             Suppress OBJ records not needed for linking
+/t             Suppress messages if successful assembly
+/uxxxx         Set version emulation, version xxxx
+/w0,/w1,/w2    Set warning level: w0=none, w1=w2=warnings on
+/w-xxx,/w+xxx  Disable (-) or enable (+) warning xxx
+/x             Include false conditionals in listing
+/z             Display source line with error message
+/zi,/zd,/zn    Debug info: zi=full, zd=line numbers only, zn=none
+
+
+
+C:\APPS\TASM\BIN>tlink /?
+Turbo Link  Version 7.1.30.1. Copyright (c) 1987, 1996 Borland International
+Syntax: TLINK objfiles, exefile, mapfile, libfiles, deffile, resfiles
+@xxxx indicates use response file xxxx
+/x   No map                          /c  Case sensitive symbols
+/m   Map including public names      /C  Case sensitive exports & imports
+/M   Map with mangled public names   /ye Expanded memory swapping
+/s   Map plus detailed segment map   /yx Extended memory swapping
+/l   Map plus source line #s         /d  Warn if duplicate symbols in libraries
+/i   Initialize all segments         /f  Inhibit optimizing far calls to near
+/L   Specify library search paths    /Gx Goodies
+/n   Ignore default libraries              n=discard Nonresident name table
+/v   Full symbolic debug information       r=transfer Resident names to
+/Tti Specify target & image type             nonresident names table
+     t can be d = DOS (default)      /A=dd  Set segment alignment
+              w = Windows            /R[mpekv]  Specify option to RLINK
+              x = DPMI               /t  Create COM file (same as /Tdc)
+     i can be e=EXE or d=DLL         /k  Suppress "No stack" warning msg
+/3  Enable 32-bit processing         /Ox Optimizations
+/o  Overlay switch                         c=chained fixups
+/P[=dd]  Pack code segments                i=iterated data
+/Vd.d Expected Windows version             a=minimum segment alignment
+/j   Specify object search paths           r=minimum resource alignment
+
+
+
+C:\APPS\BCC55\Bin>bcc32
+Borland C++ 5.5.1 for Win32 Copyright (c) 1993, 2000 Borland
+Syntax is: BCC32 [ options ] file[s]     * = default; -x- = turn switch x off
+  -3    * 80386 Instructions        -4      80486 Instructions
+  -5      Pentium Instructions      -6      Pentium Pro Instructions
+  -Ax     Disable extensions        -B      Compile via assembly
+  -C      Allow nested comments     -Dxxx   Define macro
+  -Exxx   Alternate Assembler name  -Hxxx   Use pre-compiled headers
+  -Ixxx   Include files directory   -K      Default char is unsigned
+  -Lxxx   Libraries directory       -M      Generate link map
+  -N      Check stack overflow      -Ox     Optimizations
+  -P      Force C++ compile         -R      Produce browser info
+  -RT   * Generate RTTI             -S      Produce assembly output
+  -Txxx   Set assembler option      -Uxxx   Undefine macro
+  -Vx     Virtual table control     -X      Suppress autodep. output
+  -aN     Align on N bytes          -b    * Treat enums as integers
+  -c      Compile only              -d      Merge duplicate strings
+  -exxx   Executable file name      -fxx    Floating point options
+  -gN     Stop after N warnings     -iN     Max. identifier length
+  -jN     Stop after N errors       -k    * Standard stack frame
+  -lx     Set linker option         -nxxx   Output file directory
+  -oxxx   Object file name          -p      Pascal calls
+  -tWxxx  Create Windows app        -u    * Underscores on externs
+  -v      Source level debugging    -wxxx   Warning control
+  -xxxx   Exception handling        -y      Produce line number info
+  -zxxx   Set segment names
+
+
+
+C:\APPS\BCC55\BIN>ilink32
+Turbo Incremental Link 5.00 Copyright (c) 1997, 2000 Borland
+Syntax: ILINK32 objfiles, exefile, mapfile, libfiles, deffile, resfiles
+@xxxx indicates use response file xxxx
+General Options:                        -Af:nnnn Specify file alignment
+  -C       Clear state before linking   -Ao:nnnn Specify object alignment
+  -wxxx    Warning control              -ax      Specify application type
+  -Enn     Max number of errors         -b:xxxx  Specify image base addr
+  -r       Verbose linking              -Txx     Specify output file type
+  -q       Supress banner               -H:xxxx  Specify heap reserve size
+  -c       Case sensitive linking       -Hc:xxxx Specify heap commit size
+  -v       Full debug information       -S:xxxx  Specify stack reserve size
+  -Gn      No state files               -Sc:xxxx Specify stack commit size
+  -Gi      Generate import library      -Vd.d    Specify Windows version
+  -GD      Generate .DRC file           -Dstring Set image description
+Map File Control:                       -Vd.d    Specify subsystem version
+  -M       Map with mangled names       -Ud.d    Specify image user version
+  -m       Map file with publics        -GC      Specify image comment string
+  -s       Detailed segment map         -GF      Set image flags
+  -x       No map                       -Gl      Static package
+Paths:                                  -Gpd     Design time only package
+  -I       Intermediate output dir      -Gpr     Runtime only package
+  -L       Specify library search paths -GS      Set section flags
+  -j       Specify object search paths  -Gt      Fast TLS
+Image Control:                          -Gz      Do image checksum
+  -d       Delay load a .DLL            -Rr      Replace resources
+  
+  

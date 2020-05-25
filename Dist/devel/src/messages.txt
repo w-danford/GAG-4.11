@@ -1,0 +1,47 @@
+GAG
+El Gestor de Arranque Grafico
+Choose an option (1-5)
+1: Read instructions
+2: Read FAQ
+3: Read license
+4: Install GAG
+M: Previous page  RETURN: next page  Space: Main menu
+Choose your keyboard type (1-5)
+1: QWERTY (Nearly all the World)
+2: AZERTY (Mainly France)
+3: QWERTZ (Mainly Germany)
+Error while reading disk
+Choose your language (1-9,A-Z)
+2: Bable
+3: Portugues Brazil
+4: Catalan
+5: Czech
+6: Dansk
+8: English
+9: Francais
+A: Galego
+B: Deutch
+C: Nagyar
+D: Italiano
+E: Japanese
+F: Norsk
+G: Polski
+H: Portugues
+I: Espanol
+J: Svenska
+0: Return
+6: Return
+Remember: I will NOT answer questions that can be solved reading
+the FAQ or the instructions. Those e-mails will go to the trash.
+Press any key to continue
+5: Uninstall GAG (Restores MBR)
+Are you sure you want to uninstall GAG? (Press 1 for yes or 0 for no)
+GAG uninstalled. Press a key to return to main menu.
+K: Turkce
+4: DVORAK
+7: Nederlands
+1: Russian
+5: Cyrillic (use it with Rusian language only)
+L: Euskera
+Can't uninstall. Check the FAQ.
+M: Suomen
