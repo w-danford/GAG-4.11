@@ -1,0 +1,1 @@
+mkisofs -o cdrom.iso -J -b disk.dsk gag48
