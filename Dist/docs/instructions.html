@@ -1,0 +1,275 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                           "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+   <head>
+      <title>GAG, the Graphical Boot Manager</title>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-15">
+   </head>
+
+   <body bgcolor="#E8E8F0">
+      <h1 align="center">GAG<br>the Graphical Boot Manager<br>
+                  Installation instructions</h1>
+
+      <p>GAG is a Boot Manager program, this is, a program that is loaded when
+      the computer is turned on and allows to choose the operating system you
+      want to use. Its main features are:</p>
+      <ul>
+         <li>Allows you to boot up to 9 different operating systems.</li>
+         <li>Can boot operating systems installed in primary and extended
+             partitions. They can be installed on any hard disk too.</li>
+         <li>GAG doesn't need its own partition. It installs itself in the
+             first track of the hard disk, which is reserved for this kind
+             of programs. It can also be installed on a floppy disk, without
+             using the hard disk.</li>
+         <li>Has a timer to boot a default operating system (selectable by
+             the user).</li>
+         <li>The configuration menu can be protected with a password. Also,
+             each operating system can be protected with its own password.</li>
+         <li>The program works in graphic modes (needs a VGA or better graphic
+             card), and has a lot of icons.</li>
+         <li>Hides the primary partitions, allowing the installation of more
+             than one DOS and/or Windows OS on the same hard disk.</li>
+         <li>Can exchange disk drives, allowing to boot from the second,
+             third... hard disk operating systems such as MS-DOS.</li>
+         <li>Has a SafeBoot system, which allows you to boot your hard disk
+             even if GAG is accidentally overwritten.</li>
+      </ul>
+
+      <h2>DISCLAIMER</h2>
+
+      <p>GAG is a program distributed 'as is', without any warranty of any
+      kind. The author will not be responsible if there is loss of data on
+      your hard disk or any other problem. Use it at your own risk.</p>
+
+      <p>GAG is distributed under a GPL license. Here you can
+      <a href="license.html">read it</a>.</p>
+
+      <h2>BEFORE INSTALLING GAG</h2>
+
+      <p>If you have an operating system which needs a boot loader (like
+      Linux or BSD, which needs GRUB), you must install it in the
+      SuperBlock of the root partition. With GRUB, just type from a
+      command line (as root):</p>
+
+      <p align="center">grub-install /dev/root_partition</p>
+
+      <p>Being <b>root_partition</b> your root partition, of course.
+      An example: if <b>/dev/sda7</b> is your root partition, just type:</p>
+
+      <p align="center">grub-install /dev/sda7</p>
+
+      <p>With windows there's no special care.</p>
+
+      <h2>ABOUT THE LBA PARTITIONS SUPPORT</h2>
+
+      <p>LBA support (for hard disks bigger than 8 Gigabytes) was added in
+      the version 4.0. But it still relies on the BIOS, so you need a
+      recent BIOS version that supports the INT13h extensions. These
+      extensions were created in 1998, so if your BIOS was written before
+      that year, GAG wont be able to boot operating systems located in a
+      partition beyond the original limit of 8 Gigabytes.</p>
+
+      <p>Of course, all current mainboards support them, so it should not be
+      a problem unless you install GAG in a very old computer.</p>
+
+      <h2>INSTALLATION PROCESS</h2>
+
+      <p>There are two ways to install GAG: as a floppy disk image (both from
+      a true floppy disk, or from a bootable CD-ROM), or directly from Linux.</p>
+
+      <p>For the first method you will need a blank 3 1/2 inch, high density,
+      formatted floppy, or a blank CD-ROM. This allows you to install GAG
+      without worrying about what operating system you have (if you have
+      only windows, you must use this method).</p>
+
+      <h2>DIRECT INSTALLATION</h2>
+
+      <p>This method is currently available only for Linux. Just open the
+      <b>Linux</b> folder and run (as root) the script <b>copy-files.sh</b>.
+      It will copy the linux installer and other needed files in /boot/gag.</p>
+
+      <p>Now you can use <b>gag-install</b> to install gag in your hard disk,
+      passing as parameter the device where you want to install it.</p>
+
+      <p>Example: if <b>/dev/sda</b> is your boot hard disk, then you must use:</p>
+
+      <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sudo gag-install /dev/sda</p>
+
+      <p>By default, this command install the english version and keyboard
+      QWERTY. If you want to change it, you can specify the one you want
+      with <b>-k</b> for the keyboard and <b>-l</b> for the language.
+      An example:</p>
+
+      <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sudo gag-install -k azerty -l french /dev/sda</p>
+
+      <p>To show the available keyboards, just type:</p>
+
+      <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sudo gag-install -k</p>
+
+      <p>And to show the available languages, just type:</p>
+
+      <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sudo gag-install -l</p>
+
+      <p>Again, don't forget to run <b>grub-install</b> before rebooting, or
+      you won't be able to boot your Linux partition from GAG (if you already
+      forgot it, just see in the FAQ how to fix it).</p>
+
+      <p>Now you can continue with the next section:
+      <a href="instruc2.html">Configuring GAG</a>.</p>
+
+      <h2>INSTALLING FROM FLOPPY</h2>
+
+      <p>First, you will need to create the floppy. That's done using the
+      RAWRITE2.EXE program.</p>
+
+      <p>Starting with GAG 4.01, all language versions are distributed on
+      one single disk, with a little installation program. You only have to
+      create the disk (see above the instructions of how to do it), boot
+      your computer from that disk, et voila! The instructions for using it,
+      the FAQ and the license can be read from the installer program.</p>
+
+      <p>IMPORTANT: once created, the disk will be seem to be empty (this is,
+      you will not be able to read it from MS-DOS, Windows,...) but GAG is on
+      it. Just boot your computer from it.</p>
+
+      <h3>FROM DOS</h3>
+
+      <p>Insert the formatted disk in the floppy and type</p>
+
+      <p>&nbsp;&nbsp;&nbsp;INSTALL.BAT</p>
+
+      <p>The program will create the boot floppy.</p>
+
+      <h3>FROM WINDOWS 95/98/Me</h3>
+
+      <p>Insert the formatted disk in your floppy drive.</p>
+
+      <p>Open the folder where you unzipped the GAG's zip file and
+      double-click the icon INSTALL.BAT</p>
+
+      <h3>FROM WINDOWS NT/2000/XP/VISTA</h3>
+
+      <p>Insert the formatted disk in your floppy drive.</p>
+
+      <p>Open the folder where you unzipped the GAG's zip file and
+      double-click the icon INSTALL_XP.CMD</p>
+
+      <h3>FROM OS/2</h3>
+
+      <p>Open a DOS session (it can be window or full screen) and do
+      the same as in FROM DOS.</p>
+
+      <p>If the program returns a DMA error, edit the CONFIG.SYS file
+      and modify your DOS variable, putting it as</p>
+
+      <p>&nbsp;&nbsp;&nbsp;DOS=HIGH,UMB</p>
+
+      <p>Default value is DOS=LOW,NOUMB.</p>
+
+      <p>If you prefer, you can use the native program IMAGE.EXE,
+      that comes in the OS/2 CD-ROM.</p>
+
+      <h3>FROM LINUX/UNIX</h3>
+
+      <p>Insert the formatted floppy in disk drive and type</p>
+
+      <p>&nbsp;&nbsp;&nbsp;dd if=disk.dsk of=/dev/fd0 bs=512 count=2880</p>
+
+      <p>If you prefer, you can do too:</p>
+
+      <p>&nbsp;&nbsp;&nbsp;cat disk.dsk > /dev/fd0</p>
+
+      <p>In other UNIX systems is possible you must use something different
+      to /dev/fd0.</p>
+
+      <h3>OTHER OPERATING SYSTEMS</h3>
+
+      <p>You need a program that allows you to create floppies from disk
+      images, and use it to copy the file DISK.DSK into the floppy.</p>
+
+      <h2>INSTALLING FROM CD-ROM</h2>
+
+      <p>Just use your favourite CD burn program (like NERO) to burn the CD
+      image <b>CDROM.ISO</b>. But remember: you have to go to the main menu
+      and choose <b>Burn ISO image</b> (or simmilar). If you just burn the
+      file in a data CD it won't work!</p>
+
+      <h2>BOOTING GAG</h2>
+
+      <p>Now that you have created the floppy or CD-ROM, restart your computer
+      and boot it with the created floppy. You will see the main menu for the
+      GAG Installer.</p>
+
+      <p align="center"><img src="install1.png"
+                            alt="Initial instalation menu screen."></p>
+
+      <p>Press '1' to read the instructions (are the same that you can find
+      <a href="instruc2.html">here</a>), press '2' to read the FAQ (the same
+      that you can read <a href="faq.html">here</a>), press '3' to read the
+      license (again, you can read it <a href="copying.html">here</a>), or
+      press '4' to start the installation. If you want to uninstall GAG,
+      just boot with this floppy/CD-ROM and use the option '5'.</p>
+
+      <p>After pressing '4', you will be prompted for your keyboard type:</p>
+
+      <p align="center"><img src="install2.png"
+                            alt="Keyboard selection screen."></p>
+
+      <p>It's very common to name a keyboard with the six first letters in
+      the upper row. So a QWERTY keyboard is the one that has the letters
+      Q, W, E, R, T and Y in its upper row, just below the numbers. The
+      QWERTY keyboard is the most common, but there are at least two variants:
+      the QWERTZ, mainly used in germany, and the AZERTY, mainly used in france.</p>
+
+      <p>The DVORAK keyboard is a special one, the position of each letter has
+      been determined based on frequency of use, putting the most used letters
+      directly under the fingers, and the less used in other positions. Some
+      people affirm that this keyboard allows faster speeds (at least, that was
+      the main goal when designed).</p>
+
+      <p>Finally, the Cyrillic keyboard is used mainly in Russia and neighboring
+      countries, and must be used together with the Russian language. You MUST
+      NOT use Cyrillic keyboard with other languages, or other keyboards with
+      the Russian language, because GAG will not work.</p>
+
+      <p>With Cyrillic keyboard, lowercase strokes will become Cyrillic
+      characters, and uppercase strokes will be converted to lowercase
+      Latin characters.</p>
+
+      <p>Finally, the installer will ask you what language do you want to use:</p>
+
+      <p align="center"><img src="install3.png"
+                            alt="Language selection screen."></p>
+
+      <p>After choosing the one you want, the installer will load GAG itself:</p>
+
+      <p align="center"><img src="install4.png"
+                            alt="Initial OS selection screen."></p>
+
+      <p>At this point you can continue with the next section:
+      <a href="instruc2.html">Configuring GAG</a>.</p>
+
+      <h2>ERRORS RETURNED BY GAG'S INSTALLER WHEN IT BOOTS</h2>
+
+      <p>When GAG's installer boots, it makes some tests. If it finds an error,
+      it shows a number in the screen and halts the system. The errors are these
+      ones:</p>
+
+      <ul>
+         <li>GAG: 1
+            <p>BAD SECTOR: there was a read error while trying to load GAG.
+            If you was booting from floppy, use another floppy without bad
+            sectors. If you was booting from hard disk, use SafeBoot to boot
+            an operating system and reinstall GAG. If the error persists,
+            you have bad sectors in your hard disk.</p></li>
+         <li>GAG: 3
+           <p>GAG INSTALLER NOT FOUND: the code loaded from the floppy or the
+           hard disk does not have the GAG signature. It's possible that the
+           first track has been overwritten. Create again the floppy disk
+           (or CD) and try again.</p></li>
+      </ul>
+
+      <h6 align="center">&copy;1999-2007 Raster Software Vigo</h6>
+
+   </body>
+</html>

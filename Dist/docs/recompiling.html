@@ -1,0 +1,71 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                           "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+   <head>
+      <title>GAG, the Graphical Boot Manager</title>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-15">
+   </head>
+
+   <body bgcolor="#F0F0F0">
+
+      <h1 align="center">GAG<br>the Graphical Boot Manager<br>
+      Recompiling GAG from source code</h1>
+
+      <p>All utilities that a user could need to recompile GAG from source
+      code (except for Borland's TurboAssembler) is available in the folder
+      <b>devel</b>, and all the source code is available in the folder
+      <b>devel/src</b></p>
+
+
+      <p>In the <b>devel/src</b> folder are the following files:</p>
+
+      <ul>
+        <li><b>gag.asm</b>: contains GAG's source code (except the messages
+                   and font, which are language-dependant).</li>
+        <li><b>install.asm</b>: contains the installer's source code.</li>
+        <li><b>boot.asm</b>: is the source code for the installer's boot sector.</li>
+        <li><b>messages.txt</b>: messages for the installer.</li>
+        <li><b>copying</b>: license (for adding to the installer).</li>
+        <li><b>faq.txt</b>: FAQ (for adding to the installer).</li>
+        <li><b>readme.txt</b>: instructions file (for adding to the installer).</li>
+        <li><b>put_returns.py</b>: the messages, license, FAQ and instructions
+              must use CR/LF returns to ensure that the installer will process
+              them right. This little python script process them to ensure that.</li>
+      </ul>
+
+      <p>In that folder there are a lot of folders with language names. Each
+      one contains one file <b>messages.msg</b> and another one <b>font.fnt</b>.
+      These files are language specific, and must be in the same folder as
+      <b>gag.asm</b> to be able to create a working executable.</p>
+
+      <p>In <b>devel</b> there is <b>mklang.bat</b>, a DOS batch file that
+      compiles any GAG language versions. It takes as an argument the name
+      of any langauge folder putting the compiled executable named as
+      'language'.com in the current folder, where 'language' is the name of
+      the language/folder. Then it deletes all the temporary files. Another
+      DOS batch file, <b>mkmain.bat</b> compiles the boot code, packager and
+      the installer, putting all compiled executables in the current folder.
+      Then it deletes all the temporary files.</p>
+
+      <p>To compile the assembler files you need Borland's TurboAssembler,
+      running it in a DOS box, or a compatible assembler (it must be able
+      to create DOS .COM executables, in 16-bit real mode, and accept the
+      TurboAssembler syntax). To use any other DOS 16 bit real mode assembler
+      you will need to correct the syntax to match the assembler (NASM, MASM,
+      etc.)</p>
+
+      <p>The program <b>mezcla.c</b>, when compiled, takes all these executables
+      and the files <b>messages.txt</b>, <b>copying</b>, <b>readme.txt</b> and
+      <b>faq.txt</b> and mixes them in a single, 1.44MB file, called <b>disk.dsk</b>,
+      which is ready to be used as a floppy disk image. The batch file
+      <b>mkmain.bat</b> compiles mezcla.c using Borland's BCC55 C compiler.</p>
+
+      <p>In <b>makecd.txt</b> is the cdrecord command line that you need to create,
+      from the GAG folder, a bootable CD with GAG.</p>
+
+      <h5 align="center">&copy;1999-2007 Raster Software Vigo</h5>
+      <h5 align="center">Uddate 4.11 released under GNU license, 2013<br>
+                 <a href="http://www.electronics-software.com">
+                        http://www.electronics-software.com</a></h5>
+   </body>
+</html>

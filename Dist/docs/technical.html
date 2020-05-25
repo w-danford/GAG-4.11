@@ -1,0 +1,562 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                           "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+   <head>
+      <title>GAG, the Graphical Boot Manager</title>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-15">
+   </head>
+
+   <body bgcolor="#F0F0F0">
+      <h1 align="center">GAG<br>the Graphical Boot Manager<br>
+                                      Technical information</h1>
+      <h2>Physical structure</h2>
+
+      <p>GAG is a big program (nearly 26 Kbytes) so it can't fit in the MBR
+      (446 usefull bytes); that's why it's divided in two parts: the
+      <i>bootstrap</i>, and gag itself.</p>
+
+      <p>The <i>bootstrap</i> is a little piece of code stored in the MBR
+      itself (or in the floppy's first sector when gag is installed in a
+      floppy disk). For hard disks, the code is LOAD2 (line 2348), and for
+      floppies is LOAD1 (line 2559). After being loaded at 0000:7C00h by
+      the BIOS, the code relocates itself at 000:0600h</p>
+
+      <p>After being loaded, in the case of a hard disk the code checks
+      the keys SHIFT, ALT and CNTRL. If one of them is pressed, the user
+      wants to use the SafeBoot feature, so it boots the partition marked
+      as active in the partition table.</p>
+
+      <p>If none of that keys are pressed, or if GAG is installed in a
+      floppy disk, the code loads the next 62 sectors (if hard disk) or
+      four tracks (72 sectors, if floppy disk) at 1000:017Fh. This is
+      the code map:</p>
+
+      <div align="center"><table border="1">
+         <tr>
+            <td>Offset</td>
+            <td>Size (bytes)</td>
+            <td>Content</td>
+         </tr>
+         <tr>
+            <td>017Fh</td>
+            <td>  1</td>
+            <td>Keyboard type</td>
+         </tr>
+         <tr>
+            <td>0180h</td>
+            <td>  1</td>
+            <td>Hide partitions</td>
+         </tr>
+         <tr>
+            <td>0181h</td>
+            <td>  1</td>
+            <td>Boot timer (in seconds)</td>
+         </tr>
+         <tr>
+            <td>0182h</td>
+            <td>  1</td>
+            <td>Default operating system</td>
+         </tr>
+         <tr>
+            <td>0183h</td>
+            <td> 15</td>
+            <td>Setup password</td>
+         </tr>
+         <tr>
+            <td>0192h</td>
+            <td>  1</td>
+            <td>Use setup password</td></tr>
+         <tr>
+            <td>0193h</td>
+            <td>360</td>
+            <td>Table with the list of operating systems
+                               (<a href="#list">see above</a>)</td>
+         </tr>
+         <tr>
+            <td>02FBh</td>
+            <td>  1</td>
+            <td>End of table (byte with FFh value)</td>
+         </tr>
+         <tr>
+            <td>02FCh</td>
+            <td>  4</td>
+            <td>GAG's signature</td>
+         </tr>
+         <tr>
+            <td>0300h</td>
+            <td>  ?</td>
+            <td>GAG's run code</td>
+         </tr>
+         <tr>
+            <td>    ?</td>
+            <td>  ?</td>
+            <td>Keyboard translation tables (<a href="#keyboard">see above</a>)</td>
+         </tr>
+         <tr>
+            <td>    ?</td>
+            <td>  ?</td>
+            <td>Color palette (<a href="#palette">see above</a>)</td>
+         </tr>
+         <tr>
+            <td>    ?</td>
+            <td>  ?</td>
+            <td>Text messages (<a href="#messages">see above</a>)</td>
+         </tr>
+         <tr>
+            <td>    ?</td>
+            <td>  ?</td>
+            <td>Text font (<a href="#fonts">see above</a>)</td>
+         </tr>
+         <tr>
+            <td>    ?</td>
+            <td>  1</td>
+            <td>Number of available icons</td>
+         </tr>
+         <tr>
+            <td>    ?</td>
+            <td>  ?</td>
+            <td>Icons (<a href="#icons">see above</a>)</td>
+         </tr>
+         <tr>
+            <td>    ?</td>
+            <td>  4</td>
+            <td>Version number</td>
+         </tr>
+         <tr>
+            <td>    ?</td>
+            <td>  ?</td>
+            <td>Temporal data</td>
+         </tr>
+      </table></div>
+
+      <p>The configuration data is located always at the start. In the
+      disk it's at the first byte, and in memory is at offset 017Fh, as
+      seen in the table. That means that a possible external configuration
+      program can find without risk the data and update it.</p>
+
+      <p>The <b>keyboard type</b> possible values are 0: QUERTY, 1: AZERTY,
+      2: QWERTZ, 3: DVORAK or 4: Cyrillic. There's a EQU statement, named
+      LAST_KEYBOARD, set to the last ASCII type keyboard in the list. Currently
+      it points to the DVORAK one. In some parts, GAG converts uppercase
+      keystrokes to lowercase ones. In keyboards like the Cyrillic (where,
+      to allow the user to type both Cyrillic and Latin chars, the lowercase
+      letters are Cyrillic and the uppercase are Latin), that conversion
+      must be avoided.</p>
+
+      <p>GAG 4.11: The <b>Hide partitions</b> value can be 0, which means
+      that none of the the primary partitions on the boot drive are hidden,
+      1 which means only partions before the one being booted are hidden,
+      or 2 which means that only the primary partition being booted will be
+      visible. This value corresponds to and is set by the option <b>Hide
+      primary partitions</b> at the main menu.</p>
+
+      <p>The <b>Boot timer</b> field contains the number of seconds to wait
+      before launching the default operating system. If the value is 0 there
+      will not be any timer (GAG will wait forever).</p>
+
+      <p>The <b>Default operating system</b> field contains the operating
+      system to boot when the timer expires, plus 48. This is: 49 for the
+      first operating system, 50 for the second, and so on.</p>
+
+      <p>The <b>Setup password</b> contains the password for the Setup menu.
+      It must be completed with blank spaces (ASCII 32).</p>
+
+      <p>If the field <b>Use setup password</b> is 0 GAG will not ask the
+      setup password; if its value is 1 then GAG will ask it.</p>
+
+      <h2><a name="list">Table with the operating systems</a></h2>
+
+      <p>The table with all the currently configured operating systems is
+      located at offset 0193h. This table contains 9 entries, each one with
+      this format:</p>
+
+      <div align="center"><table border="1">
+         <tr>
+            <td>Field number</td><td>Offset</td><td>Size (bytes)</td><td>Content</td>
+         </tr>
+         <tr>
+            <td>0</td><td>00h</td><td> 1</td><td>Icon number</td>
+         </tr>
+         <tr>
+            <td>1</td><td>01h</td><td>15</td><td>Name</td>
+         </tr>
+         <tr>
+            <td>2</td><td>10h</td><td> 1</td><td>Disk drive</td>
+         </tr>
+         <tr>
+            <td>3</td><td>11h</td><td> 1</td><td>Disk head/LBA byte 0</td>
+         </tr>
+         <tr>
+            <td>4</td><td>12h</td><td> 1</td><td>Disk sector/LBA byte 1</td>
+         </tr>
+         <tr>
+            <td>5</td><td>13h</td><td> 1</td><td>Disk track/LBA byte 4</td>
+         </tr>
+         <tr>
+            <td>6</td><td>14h</td><td> 1</td><td>Has password</td>
+         </tr>
+         <tr>
+            <td>7</td><td>15h</td><td>15</td><td>Password</td>
+         </tr>
+         <tr>
+            <td>8</td><td>24h</td><td> 1</td><td>Swap drive</td>
+         </tr>
+         <tr>
+            <td>9</td><td>25h</td><td> 1</td><td>LBA byte 2</td>
+         </tr>
+         <tr>
+            <td>A</td><td>26h</td><td> 1</td><td>LBA byte 3</td>
+         </tr>
+         <tr>
+            <td>B</td><td>27h</td><td> 1</td><td>Use CHS/LBA mode</td>
+         </tr>
+
+      </table></div>
+
+      <p>The field 0 (the first byte) contains the icon used for this
+      entry. There are two special values:</p>
+
+      <ul>
+         <li><b>Value 0h:</b> this icon is the screwdriver, used only for
+            the configuration entry.</li>
+         <li><b>Value FFh:</b> this value means "End of list". When GAG
+            finds an entry with this icon value, assumes that there are
+            no more operating systems in the list. That's why there's an
+            extra FFh byte after the 360 bytes.</li>
+      </ul>
+
+      <p>The order is the same that you can see when GAG asks the user
+      for an icon:</p>
+
+      <p align="center"><img src="config6.png" alt="GAG icon list screen."></p>
+
+      <p>The field 1 contains the name for that entry. It must be completed
+      to 15 characters with blank spaces (ASCII 32).</p>
+
+      <p>The field 2 contains the disk drive to boot. It can contain the
+      following values:</p>
+
+      <ul>
+        <li>00h: floppy disk (A:)</li>
+        <li>80h: first hard disk</li>
+        <li>81h: second hard disk</li>
+        <li>82h: third hard disk</li>
+        <li>...</li>
+      </ul>
+
+      <p>The bit 0 in the field 0Bh determines if booting this operating
+      system must be done using CHS (bit clear or 0) or LBA (bit set or 1).
+      If its value is 0, then the fields 3, 4 and 5 contains the head, sector
+      and track of the partition's first sector, and values of fields 9 and
+      A are discarded. But if the value is 1, then GAG will use LBA access,
+      and the sector's number is composed with fields 3, 4, 9, A and 5.
+      Byte 0 is the less significant, and byte 4 the most significant.
+      The last 3 bytes needed to create an LBA address must be set to 0.</p>
+
+      <p>So, to compose the LBA address, just compose it this way:</p>
+
+      <div align="center"><table border="1">
+        <tr>
+           <td>bit 56-63</td>
+           <td>bit 48-55</td>
+           <td>bit 47-40</td>
+           <td>bit 39-32</td>
+           <td>bit 31-24</td>
+           <td>bit 23-16</td>
+           <td>bit 15-8</td>
+           <td>bit 7-0</td>
+        </tr>
+        <tr>
+           <td>0</td>
+           <td>0</td>
+           <td>0</td>
+           <td>Field 5</td>
+           <td>Field A</td>
+           <td>Field 9</td>
+           <td>Field 4</td>
+           <td>Field 3</td>
+        </tr>
+      </table></div>
+
+      <p>If the field 6 is 0, this entry has no password. But if its value
+      is 1, then GAG will ask for the password stored (and completed with
+      blank spaces, ASCII 32) in field 7.</p>
+
+      <p>Finally, the field 8 contains the drive unit to swap with the first
+      disk drive. If this field contains 0, then there will be no drive swap.
+      But if its value is XX then GAG will install a piece of resident code
+      that will capture all calls made to INT13h (hard disk access). If the
+      call wants to read from drive 80h, the resident will change it to XX,
+      and if the desired disk was XX, it will change it to 80h, so both
+      drive accesses will be efectively swapped.</p>
+
+      <h2><a name="keyboard">Keyboard translation tables</a></h2>
+
+      <p>The WAITKEY function reads the keyboard. To allow multilanguage
+      support, it must know the relationships between the QWERTY North
+      American keyboard (the one the BIOS assumes the user has) and the
+      specific keyboard the user actually has. To do this, there are five
+      translation tables which maps each ASCII character to the desired
+      character. Each table entry has a length of two bytes, where the
+      first byte contains the received character (the one returned by
+      the BIOS call), and the second one contains the character to return.</p>
+
+      <p>The shorter example is the QWERTZ keyboard, where letters Y and Z
+      are inverted. This is the table:</p>
+
+      <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DB "Z","Y"<br>
+         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DB "Y","Z"<br>
+         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DB "z","y"<br>
+         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DB "y","z"<br>
+         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DB 0</p>
+
+      <p>The first entry has the uppercase Z letter as character to substitute,
+      and the uppercase Y as new character; so when the user presses the Z key,
+      GAG will find this entry and WAITKEY will return a letter Y instead of
+      a Z.</p>
+
+      <p>The end of table is a single zero byte.</p>
+
+      <p>To add a new table one must modify the WAITKEY function. Near its
+      end is a little piece of code which loads in SI the offset of the
+      desired table, based in the value of the KEYBOARD TYPE config variable.</p>
+
+      <h2><a name="palette">Color palette</a></h2>
+
+      <p>GAG works in the 16 colour, 4 bit-per-pixel, 640x480 VGA mode.
+      Currently GAG uses this palette:</p>
+
+      <div align="center"><table border="1">
+         <tr>
+            <td>000000</td>
+            <td>808080</td>
+            <td>C0C0C0</td>
+            <td>C08080</td>
+            <td>FFFFFF</td>
+            <td>C00000</td>
+            <td>00C000</td>
+            <td>E0B008</td>
+            <td>AC7C20</td>
+            <td>C8C800</td>
+            <td>0000C0</td>
+            <td>800000</td>
+            <td>00C0C0</td>
+            <td>C04040</td>
+            <td>282470</td>
+            <td>008000</td>
+         </tr>
+         <tr>
+            <td bgcolor="#000000">&nbsp;</td>
+            <td bgcolor="#808080">&nbsp;</td>
+            <td bgcolor="#C0C0C0">&nbsp;</td>
+            <td bgcolor="#C08080">&nbsp;</td>
+            <td bgcolor="#FFFFFF">&nbsp;</td>
+            <td bgcolor="#C00000">&nbsp;</td>
+            <td bgcolor="#00C000">&nbsp;</td>
+            <td bgcolor="#E0B008">&nbsp;</td>
+            <td bgcolor="#AC7C20">&nbsp;</td>
+            <td bgcolor="#C8C800">&nbsp;</td>
+            <td bgcolor="#0000C0">&nbsp;</td>
+            <td bgcolor="#800000">&nbsp;</td>
+            <td bgcolor="#00C0C0">&nbsp;</td>
+            <td bgcolor="#C04040">&nbsp;</td>
+            <td bgcolor="#282470">&nbsp;</td>
+            <td bgcolor="#008000">&nbsp;</td>
+          </tr>
+      </table></div>
+
+      <h2><a name="messages">Text messages</a></h2>
+
+      <p>The text messages are stored in independant files and folders, one
+      for each available language. The file must be named <b>messages.msg</b>,
+      and contains all the sentences used in GAG. Each sentence has a maximum
+      length, and some must be completed with blank spaces (ASCII 32) to have
+      a fixed length.</p>
+
+      <h2><a name="fonts">Text font</a></h2>
+
+      <p>GAG uses its own text font. This allows to use non-ASCII charsets.</p>
+
+      <p>The font used in GAG has a size of 16x16 pixels, and each letter is
+      stored as a bitmap graphic, starting at the label <b>character</b>.
+      Each character is defined as 32 bytes, following this scheme:</p>
+
+      <p align="center"><img src="font.png" alt="Font bitmap definition."></p>
+
+      <p>Each group of 8x1 pixels in converted to a decimal value using the
+      scheme showed in the lower part (in other words: it is asumed that a
+      black pixel is a binary '1', and a background pixel is a binary '0').
+      The bytes are stored following a zig-zag sequence: first the upper left,
+      second the upper right, third the left one of the second line, fourth
+      the right one of the second line, and so on.</p>
+
+      <p>To save space, we store only the defined characters, and not the
+      256 possible ones. To find a defined character there's a table located
+      just before the font bitmaps, at the label <b>chartable</b>. Each entry
+      has three bytes and defines a range of characters. The first byte is
+      the first character code valid for this range, the second byte is the
+      last character code valid for this range, and the third byte is the value
+      to be substracted from the character desired to know the offset in the
+      current font table.</p>
+
+      <p>Let's see an example to understand this better. Suppose we have this
+      font map:</p>
+
+      <div align="center"><table border="1">
+         <tr>
+            <td></td><td><b>0</b></td><td><b>1</b></td><td><b>2</b></td><td><b>3</b></td><td><b>4</b></td><td><b>5</b></td><td><b>6</b></td><td><b>7</b></td><td><b>8</b></td><td><b>9</b></td><td><b>A</b></td><td><b>B</b></td><td><b>C</b></td><td><b>D</b></td><td><b>E</b></td><td><b>F</b></td>
+         </tr>
+         <tr>
+            <td><b>0</b></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+         </tr>
+         <tr>
+            <td><b>1</b></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+         </tr>
+         <tr>
+            <td><b>2</b></td><td>&nbsp;</td><td>!</td><td>"</td><td>#</td><td>$</td><td>%</td><td>&amp;</td><td>'</td><td>(</td><td>)</td><td>*</td><td>+</td><td>,</td><td>-</td><td>.</td><td>/</td>
+         </tr>
+         <tr>
+            <td><b>3</b></td><td>0</td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td><td>8</td><td>9</td><td>:</td><td>;</td><td>&lt;</td><td>=</td><td>&gt;</td><td>?</td>
+         </tr>
+         <tr>
+            <td><b>4</b></td><td>@</td><td>A</td><td>B</td><td>C</td><td>D</td><td>E</td><td>F</td><td>G</td><td>H</td><td>I</td><td>J</td><td>K</td><td>L</td><td>M</td><td>N</td><td>O</td>
+         </tr>
+         <tr>
+            <td><b>5</b></td><td>P</td><td>Q</td><td>R</td><td>S</td><td>T</td><td>U</td><td>V</td><td>W</td><td>X</td><td>Y</td><td>Z</td><td>[</td><td>\</td><td>]</td><td>^</td><td>_</td>
+         </tr>
+         <tr>
+            <td><b>6</b></td><td>`</td><td>a</td><td>b</td><td>c</td><td>d</td><td>e</td><td>f</td><td>g</td><td>h</td><td>i</td><td>j</td><td>k</td><td>l</td><td>m</td><td>n</td><td>o</td>
+         </tr>
+         <tr>
+            <td><b>7</b></td><td>p</td><td>q</td><td>r</td><td>s</td><td>t</td><td>u</td><td>v</td><td>w</td><td>x</td><td>y</td><td>z</td><td>{</td><td>|</td><td>}</td><td>~</td><td>&copy;</td>
+         </tr>
+         <tr>
+            <td><b>8</b></td><td></td><td></td><td>&eacute;</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+         </tr>
+         <tr>
+            <td><b>9</b></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+         </tr>
+         <tr>
+            <td><b>A</b></td><td>&aacute;</td><td>&iacute;</td><td>&oacute;</td><td>&uacute;</td><td>&ntilde;</td><td>&Ntilde;</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+         </tr>
+         <tr>
+            <td><b>B</b></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+         </tr>
+         <tr>
+            <td><b>C</b></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+         </tr>
+         <tr>
+            <td><b>D</b></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+         </tr>
+         <tr>
+            <td><b>E</b></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+         </tr>
+         <tr>
+            <td><b>F</b></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+         </tr>
+      </table></div>
+
+      <p>We create the bitmaps for each letter and store them in memory,
+      having this bitmap table:</p>
+
+      <div align="center"><table border="1">
+         <tr>
+            <td></td><td><b>0</b></td><td><b>1</b></td><td><b>2</b></td><td><b>3</b></td><td><b>4</b></td><td><b>5</b></td><td><b>6</b></td><td><b>7</b></td><td><b>8</b></td><td><b>9</b></td><td><b>A</b></td><td><b>B</b></td><td><b>C</b></td><td><b>D</b></td><td><b>E</b></td><td><b>F</b></td>
+         </tr>
+         <tr>
+            <td><b>0</b></td><td>&nbsp;</td><td>!</td><td>"</td><td>#</td><td>$</td><td>%</td><td>&amp;</td><td>'</td><td>(</td><td>)</td><td>*</td><td>+</td><td>,</td><td>-</td><td>.</td><td>/</td>
+         </tr>
+         <tr>
+            <td><b>1</b></td><td>0</td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td><td>8</td><td>9</td><td>:</td><td>;</td><td>&lt;</td><td>=</td><td>&gt;</td><td>?</td>
+         </tr>
+         <tr>
+            <td><b>2</b></td><td>@</td><td>A</td><td>B</td><td>C</td><td>D</td><td>E</td><td>F</td><td>G</td><td>H</td><td>I</td><td>J</td><td>K</td><td>L</td><td>M</td><td>N</td><td>O</td>
+         </tr>
+         <tr>
+            <td><b>3</b></td><td>P</td><td>Q</td><td>R</td><td>S</td><td>T</td><td>U</td><td>V</td><td>W</td><td>X</td><td>Y</td><td>Z</td><td>[</td><td>\</td><td>]</td><td>^</td><td>_</td>
+         </tr>
+         <tr>
+            <td><b>4</b></td><td>`</td><td>a</td><td>b</td><td>c</td><td>d</td><td>e</td><td>f</td><td>g</td><td>h</td><td>i</td><td>j</td><td>k</td><td>l</td><td>m</td><td>n</td><td>o</td>
+         </tr>
+         <tr>
+            <td><b>5</b></td><td>p</td><td>q</td><td>r</td><td>s</td><td>t</td><td>u</td><td>v</td><td>w</td><td>x</td><td>y</td><td>z</td><td>{</td><td>|</td><td>}</td><td>~</td><td>&copy;</td>
+         </tr>
+         <tr>
+            <td><b>6</b></td><td>&eacute;</td><td>&aacute;</td><td>&iacute;</td><td>&oacute;</td><td>&uacute;</td><td>&ntilde;</td><td>&Ntilde;</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+         </tr>
+      </table></div>
+
+      <p>But in this table we compacted the characters, so we have to define
+      a chartable that allows us to map the original codes to the new ones.
+      If we see the original table, we found three sections: the one from 20h
+      up to 7Fh, the one for 82h, and the one from A0 up to A5.</p>
+
+      <p>We must map values 20h-7Fh to values 0h-5F, value 82h to 60h, and
+      values A0h-A5h to 61h-66h, so the conversion table must be:</p>
+
+      <p align="center"><b>20h,7Fh,20h,82h,82h,22h,A0h,A5h,3Fh,0</b></p>
+
+      <p>So, when we print a character between 20h and 7Fh, we substract 20h
+      from it and print that character from out character table. If we print the
+      character 82h, we substract 22h (now it is 60h) and print that character.
+      If we print a character between A0h and A5h, we substract 3Fh (converting
+      it to a value between 61h-66h), and print that character.</p>
+
+      <p>Any character code that doesn't fall in one of the groups will be
+      printed as the first character (ussually a blank space).</p>
+
+      <h2><a name="languages">Languages</a></h2>
+
+      <p> GAG, through use of language message files and associated font files,
+      supports a multilangual interface. The main font is the ASCII keyboard
+      set plus vowels having accent marks depicted in the table above. For
+      additional letters (accented vowels, etc.) a character bitmap must be
+      defined and added to the basic font table. To translate the message to
+      any language one desires first translate the message strings in
+      messages.msg for English. If any special letters with diacritical
+      marks are needed these too must be created and added to the font
+      table (at least for that language) as long as they fall within the
+      interantional Latin extended charset. For languages using other than
+      the extanded Latin Alphabet a complete font must be created and mapped
+      to the computer keyboard ASCII output.</p>
+
+      <h2><a name="icons">Icons</a></h2>
+
+      <p>Icons are stored as 4-bit bitmaps, and its size is 40x40 pixels.
+      To simplify the code in GAG, the icons are stored as four monocrome planes,
+      containing each plane one bit of the pixel's color. Here's a picture:</p>
+
+      <p align="center"><img src="icons.png" alt="Icon bitmap definition."></p>
+
+      <p>Since the process is certainly complex to be done "by hand", there's
+      a little C program, called <b>gagicon.c</b> that creates the source code
+      for an icon from a picture created with the GIMP. This program aproximates
+      the colors in the original image with the nearest in GAG's palette, splits
+      the picture in four planes and dumps them as asembler source code, ready
+      to be copy&amp;paste in the source code. To use it, you must follow these
+      steps:</p>
+
+      <ul>
+         <li>Create a 40x40 icon, in true color, using GIMP. Is recommended to
+             use alpha channel (transparency).</li>
+         <li>Save the icon in "C source code" format, with the name
+             <b>iconfile.c</b>, in the same directory as the
+             <b>gagicon.c</b> file.</li>
+         <li>Compile <b>gagicon.c</b> with the command line <b>gcc -o gagicon
+             gagicon.c</b></li>
+         <li>Run it (<b>./gagicon</b>)</li>
+         <li>Now you have a file named <b>exit.asm</b> with the source code
+             needed for that icon.</li>
+      </ul>
+
+      <p>If you add an icon to the source code, don't forget to update the
+      number of icons available (It is a DB located just before the first
+      icon).</p>
+
+      <h5 align="center">&copy;1999-2007 Raster Software Vigo</h5>
+      <h5 align="center">Uddate 4.11 released under GNU license, 2013<br>
+              <a href="http://www.electronics-software.com">
+                        http://www.electronics-software.com</a></h5>
+
+   </body>
+</html>
