@@ -1,0 +1,22 @@
+GAG supports many keyboards in order to be fully international. Please read
+this file to understand how to recognize yours.
+
+It's very common to name a keyboard with the six first letters in the upper
+row. So a QWERTY keyboard is the one that has the letters Q, W, E, R, T and Y
+in its upper row, just below the numbers. The QWERTY keyboard is the most
+common, but there are at least two variants: the QWERTZ, mainly used in
+germany, and the AZERTY, mainly used in france.
+
+The DVORAK keyboard is a special one, because the position of each letter
+has been determined in base to the use, putting the most used letters
+directly under the fingers, and the less used in other positions. Some
+people affirms that this keyboard allows faster speeds (at least, that was
+the main goal when designed).
+
+Finally, the Cyrillic keyboard is used mainly in Rusia and neighbor
+countries, and must be used together with the Rusian language. You MUST NOT
+use Cyrillic keyboard with other languages, or other keyboards with Rusian
+language, because GAG will not work.
+
+With Cyrillic keyboard, lowercase strokes will become cyrillic
+characters, and uppercase strokes will be converted to latin characters.

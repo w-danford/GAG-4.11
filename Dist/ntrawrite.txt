@@ -1,0 +1,39 @@
+NTRawrite
+Introduction
+
+NTRawrite has been through three releases, and the only reported bug was that if the image file size was different than the diskette capacity, which was fixed in 1.0.1.
+
+Rationale
+
+The reason I wrote NTRawrite is because Rawrite/Rawrite3 didn't work under NT half the time, and I didn't really want to figure out why. I looked at the source, and found out that:
+
+   1. The code was built with Turbo C which I'm not sure even exists any more. At point, someone made Rawrite 2 which put #ifdefs areound the Turbo C functions, and inserted the equivalent functions in MSC / VC.
+   2. The code is using raw DOS interrupt calls that under NT and Win2K are an emulation of an emulation of the original DOS calls. I'm surprised it even works at all.
+
+So it turns out that my emulated emulated calls weren't working for some reason, which deterred me from trying to research what my problem was any further, since the likelihood of anyone sympathizing with my plight was near zero. I gave up and wrote NTRawrite, which didn't take that long.
+
+Why It's Better
+
+I have added:
+
+    * Contemporary API use. Uses supported Windows NT / Windows 2000 APIs for diskette manipulation.
+    * Meaningful status. You know how far along you are in the process.
+    * Verification. The data written to the diskette is verified against the source image file.
+    * Recording. You can "rip" floppies to an image file.
+
+Current Problems
+
+    * Has not been tested on a wide variety of floppies or floppy drives. All comments welcome if you have a failure using a particular machine with a particular floppy drive. If it's broken for a particular drive, I'm not sure what I'd do to fix it, though.
+    * Return codes are messed up -- I will see what I can do. Basically, nonzero means "I didn't do it", and zero means "I did it". Whatever "it" is.
+    * Only supports Windows NT 4.0 and current Windows 2000 variants. That is to say, Windows 95 and Windows 98 are not supported. Maybe Rawrite will still work for those users...
+
+Usage
+
+usage: NTRawrite [--noverify] [--reverse] [-n] [-h] [-f image_file] [-d drive]
+
+       --noverify     Skips verification step.
+       --reverse      Saves diskette to image file instead.
+       -n             Don't wait for the user to insert a diskette.
+       -f image_file  Disk image file to place on diskette.
+       -d drive       Drive specifier to put diskette image on.
+       -h             Display usage.
