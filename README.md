@@ -12,10 +12,12 @@ This meant when booting an OS on second primary partition the first primary part
 
 ## My update
 
+(Built July 2013, uploaded to github May 2020.)
+
 My fix, I do not want to hide any partitions. So I fixed this. And the result is a 'next' version with hide or do not hide fully selectable. The original author, Sergio Costas Rodríguez, states in the version 4.10 documentation that MS OSes seem to conflict. I tested for this in my legacy support system which has WIN NT4.0, DOS6.22, WIN 98, in this order on the first three primary partitions of hd0. I found no conflicts.
 
 For the history of GAG its original author has a site [Rastersoft](http://www.rastersoft.com/).
 
-My now latest version 4.11 I offer [here](http://www.electronics-software.com/GAG4.11/GAG411.zip) prebuilt .zip file with all source. In this version I have also incorporated a Finnish language port from translation files supplied by Juha Niskanen in the "Patches" tickets on the sourceforge site. Unfortunately he did not supply a font set to support the vowels with diacritical marks as used in Finnish language, so I had to change these to their simple Latin charset letters. And one string was too long. For that I simply made 3 or so double vowels into single. Seems Finnish has many double letters. This is deliberate misspelling, like an abbreviation, but hopefully comprehensible. I appologize on that detail.
+My now latest version 4.11 I offer [here](http://www.electronics-software.com/GAG4.11/GAG411.zip) prebuilt .zip file with all source included. In this version I have also incorporated a Finnish language port from translation files supplied by Juha Niskanen in the "Patches" tickets on the sourceforge site. Unfortunately he did not supply a font set to support the vowels with diacritical marks as used in Finnish language, so I had to change these to their simple Latin charset letters. And one string was too long. For that I simply made 3 or so double vowels into single. Seems Finnish has many double letters. This is deliberate misspelling, like an abbreviation, but hopefully comprehensible. I appologize on that detail.
 
 As long as we are dealing with hiding partitions I observed the previous GAG versions would leave any partitions as hidden on a drive last booted to when now booting to a different drive. My legacy has 3 ATA hard drives (MB does not support SATA). That is if I boot to a primary on hd0 hiding other primaries, then reboot to hd2 I observed hd0 still had hidden partitions. So I have also added an "unhide all primary partitions on drives other than the one being booted to" feature. For those who need to hide some primary partitions on a boot drive.
